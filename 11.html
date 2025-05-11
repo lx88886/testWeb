@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>李鑫的个人简历 | 新媒体运营</title>
+    <meta
+      name="description"
+      content="张三的个人简历网站，展示前端开发经验、项目案例和技术能力。10年互联网行业经验，曾就职于字节跳动等公司。"
+    />
+    <meta
+      name="keywords"
+      content="前端开发,全栈工程师,个人简历,React,Vue,Node.js"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+      }
+
+      body {
+        line-height: 1.6;
+        color: #333;
+        background-color: #f9f9f9;
+      }
+
+      /* 导航栏 */
+      .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(44, 62, 80, 0.95);
+        padding: 15px;
+        z-index: 1000;
+        backdrop-filter: blur(5px);
+      }
+
+      .nav-links {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+      }
+
+      .nav-links li {
+        margin: 0 20px;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+        position: relative;
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0%;
+        height: 2px;
+        background: #3498db;
+        transition: width 0.3s;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      /* 英雄区域 */
+      .hero {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background: linear-gradient(
+            rgba(44, 62, 80, 0.8),
+            rgba(44, 62, 80, 0.8)
+          ),
+          url("https://picsum.photos/1920/1080?random=1") center/cover;
+        color: white;
+        position: relative;
+        overflow: hidden; /* 粒子背景容器 */
+      }
+
+      /* 粒子背景容器 */
+      #particles-js {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-content h1 {
+        font-size: 3.5em;
+        margin-bottom: 10px;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.8s forwards;
+      }
+
+      .hero-content p {
+        font-size: 1.5em;
+        color: #ecf0f1;
+        margin-bottom: 30px;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.8s 0.3s forwards;
+      }
+
+      /* 主要内容容器 */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 50px 20px;
+      }
+
+      section {
+        margin: 50px 0;
+        padding: 30px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s;
+      }
+
+      section.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      h2 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 30px;
+        font-size: 2.5em;
+      }
+
+      /* 关于我 */
+      .about-content {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        margin-top: 30px;
+      }
+
+      .profile-img {
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 5px solid #3498db;
+        transition: transform 0.5s;
+      }
+
+      .profile-img:hover {
+        transform: rotate(5deg) scale(1.05);
+      }
+
+      /* 技能卡片动画 */
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+        justify-items: center;
+      }
+
+      .skill-card {
+        text-align: center;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        transform: scale(0.95);
+        transition: all 0.5s;
+      }
+
+      .skill-card:hover {
+        transform: scale(1.02);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      /* 项目卡片动画 */
+      .project-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 40px;
+      }
+
+      .project-card {
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding: 20px;
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .project-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(52, 152, 219, 0.1),
+          transparent
+        );
+        transition: left 0.6s;
+      }
+
+      .project-card:hover::before {
+        left: 100%;
+      }
+
+      /* 联系方式 */
+      .contact-section {
+        text-align: center;
+        background: #2c3e50;
+        color: white;
+        padding: 50px 20px;
+        margin-top: 80px;
+      }
+
+      .contact-links {
+        margin: 30px 0;
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+      }
+
+      .contact-links a {
+        color: white;
+        font-size: 1.5em;
+        transition: all 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .contact-links a:hover {
+        color: #3498db;
+        transform: translateY(-3px);
+      }
+
+      /* 动画关键帧 */
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 768px) {
+        .about-content {
+          flex-direction: column;
+        }
+        .profile-img {
+          width: 200px;
+          height: 200px;
+        }
+        .nav-links li {
+          margin: 0 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+      <ul class="nav-links">
+        <li><a href="#home">首页</a></li>
+        <li><a href="#about">关于我</a></li>
+        <li><a href="#experience">经历</a></li>
+        <li><a href="#skills">技能</a></li>
+        <li><a href="#projects">项目</a></li>
+        <li><a href="#contact">联系我</a></li>
+      </ul>
+    </nav>
+
+    <!-- 英雄区域（含粒子背景） -->
+    <section id="home" class="hero">
+      <div id="particles-js"></div>
+      <!-- 粒子背景容器 -->
+      <div class="hero-content">
+        <h1>张三</h1>
+        <p>资深前端开发工程师 | 全栈技术爱好者</p>
+        <a
+          href="#contact"
+          class="btn"
+          style="
+            padding: 10px 30px;
+            background: #3498db;
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+          "
+          >立即联系</a
+        >
+      </div>
+    </section>
+
+    <!-- 容器 -->
+    <div class="container">
+      <!-- 关于我 -->
+      <section id="about">
+        <h2>关于我</h2>
+        <div class="about-content">
+          <img
+            src="https://picsum.photos/250/250?random=2"
+            alt="张三"
+            class="profile-img"
+          />
+          <div>
+            <p>
+              10年互联网行业经验，专注于前端开发与架构设计，擅长将复杂需求转化为高效可维护的解决方案。熟悉主流技术栈（React/Vue/Node.js），具备团队协作和项目管理经验。
+            </p>
+            <p>个人信条：技术驱动创新，细节决定品质。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 职业经历 -->
+      <section id="experience">
+        <h2>职业经历</h2>
+        <ul
+          class="timeline"
+          style="list-style: none; position: relative; padding-left: 30px"
+        >
+          <li
+            style="
+              margin-bottom: 30px;
+              padding: 20px;
+              background: #f8f9fa;
+              border-radius: 8px;
+            "
+          >
+            <h3 style="color: #3498db">高级前端工程师</h3>
+            <p>字节跳动 | 2021.01-至今</p>
+            <ul style="padding-left: 20px; margin-top: 10px">
+              <li>主导公司官网重构，性能优化使首屏加载时间减少40%；</li>
+              <li>设计并维护组件库，提升团队开发效率30%；</li>
+            </ul>
+          </li>
+        </ul>
+      </section>
+
+      <!-- 核心技能 -->
+      <section id="skills">
+        <h2>核心技能</h2>
+        <div class="skills-grid">
+          <div class="skill-card">
+            <div
+              class="skill-level"
+              style="
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                background: #f0f8ff;
+                margin: 20px auto;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1.2em;
+                color: #3498db;
+              "
+            >
+              90%
+            </div>
+            <h3>前端开发</h3>
+            <p>HTML/CSS/JavaScript、React/Vue、TypeScript</p>
+          </div>
+          <div class="skill-card">
+            <div
+              class="skill-level"
+              style="
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                background: #f0f8ff;
+                margin: 20px auto;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1.2em;
+                color: #3498db;
+              "
+            >
+              80%
+            </div>
+            <h3>后端开发</h3>
+            <p>Node.js、Express/Koa、MySQL/MongoDB</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 代表项目 -->
+      <section id="projects">
+        <h2>代表项目</h2>
+        <div class="project-grid">
+          <div class="project-card">
+            <h3>企业级管理系统</h3>
+            <p>技术栈：React + Ant Design + Node.js</p>
+            <p>
+              实现权限管理、数据可视化、批量导入导出等功能，服务300+企业客户。
+            </p>
+          </div>
+          <div class="project-card">
+            <h3>电商小程序</h3>
+            <p>技术栈：微信小程序 + Koa + MySQL</p>
+            <p>优化首屏加载速度至1.2s，上线3个月用户量突破50万。</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- 联系方式 -->
+    <section id="contact" class="contact-section">
+      <h2>联系我</h2>
+      <p>欢迎通过以下方式与我沟通：</p>
+      <div class="contact-links">
+        <a href="mailto:zhangshan@example.com"
+          ><i class="fas fa-envelope"></i> 邮箱</a
+        >
+        <a href="#" onclick="openPhoneModal(event)"
+          ><i class="fas fa-phone"></i> 手机</a
+        >
+        <a href="https://github.com/yourgithub" target="_blank"
+          ><i class="fab fa-github"></i> GitHub</a
+        >
+        <a href="https://www.douyin.com/user/你的抖音ID" target="_blank"
+          ><i class="fas fa-music"></i> 抖音</a
+        >
+      </div>
+      <p>
+        <a
+          href="你的简历.pdf"
+          download
+          class="btn"
+          style="
+            padding: 10px 30px;
+            background: white;
+            color: #2c3e50;
+            border-radius: 25px;
+            text-decoration: none;
+            margin-top: 20px;
+            display: inline-block;
+          "
+          >下载PDF简历</a
+        >
+      </p>
+    </section>
+
+    <!-- 手机联系方式模态框 -->
+    <div
+      class="phone-modal"
+      id="phoneModal"
+      style="
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1001;
+      "
+    >
+      <div
+        style="
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background: white;
+          padding: 30px;
+          border-radius: 10px;
+          text-align: center;
+        "
+      >
+        <h3 style="color: #2c3e50; margin-bottom: 15px">我的联系方式</h3>
+        <p style="color: #3498db; font-size: 1.2em; margin-bottom: 20px">
+          手机号：138-1234-5678
+        </p>
+        <button
+          onclick="closePhoneModal()"
+          style="
+            padding: 8px 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+          "
+        >
+          关闭
+        </button>
+      </div>
+    </div>
+
+    <!-- 粒子背景库 -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <!-- 主脚本 -->
+    <script>
+      // 平滑滚动
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        });
+      });
+
+      // 滚动动画（元素进入视口时触发）
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      document.querySelectorAll("section").forEach((section) => {
+        observer.observe(section);
+      });
+
+      // 粒子背景初始化
+      particlesJS("particles-js", {
+        particles: {
+          number: {
+            value: 80,
+            density: {
+              enable: true,
+              value_area: 800,
+            },
+          },
+          color: {
+            value: "#ffffff",
+          },
+          shape: {
+            type: "circle",
+            stroke: {
+              width: 0,
+              color: "#000000",
+            },
+          },
+          opacity: {
+            value: 0.5,
+            random: false,
+            anim: {
+              enable: false,
+              speed: 1,
+              opacity_min: 0.1,
+              sync: false,
+            },
+          },
+          size: {
+            value: 3,
+            random: true,
+            anim: {
+              enable: false,
+              speed: 40,
+              size_min: 0.1,
+              sync: false,
+            },
+          },
+          line_linked: {
+            enable: true,
+            distance: 150,
+            color: "#ffffff",
+            opacity: 0.4,
+            width: 1,
+          },
+          move: {
+            enable: true,
+            speed: 2,
+            direction: "none",
+            random: false,
+            straight: false,
+            out_mode: "out",
+            bounce: false,
+            attract: {
+              enable: false,
+              rotateX: 600,
+              rotateY: 1200,
+            },
+          },
+        },
+        interactivity: {
+          detect_on: "canvas",
+          events: {
+            onhover: {
+              enable: true,
+              mode: "repulse",
+            },
+            onclick: {
+              enable: true,
+              mode: "push",
+            },
+            resize: true,
+          },
+        },
+      });
+
+      // 手机模态框控制
+      function openPhoneModal(event) {
+        event.preventDefault();
+        document.getElementById("phoneModal").style.display = "block";
+      }
+
+      function closePhoneModal() {
+        document.getElementById("phoneModal").style.display = "none";
+      }
+    </script>
+  </body>
+</html>
